@@ -1,5 +1,5 @@
 {
-  "name": "pjtoolbox-rn",
+  "name": "react-native--expert-boilerplate",
   "description": "It comes with most important rn packages for developing apps.\nIt's based on Expo v35, react-navigation, jest (unit test - TDD), redux (global state manager), redux-form, etc.",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
