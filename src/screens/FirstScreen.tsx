@@ -10,7 +10,7 @@ export default class FirstScreen extends React.Component {
         <Header />
         <View style={{ height: 200, width: "100%", backgroundColor: 'purple', alignSelf: 'flex-start' }}>
           <Text>Vamos Produzir, <Text>Thiago Silva</Text></Text>
-          <Button>+</Button>
+          <Button title={"+"}></Button>
         </View>
         <BarChart
           data={{
