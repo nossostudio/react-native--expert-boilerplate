@@ -12,6 +12,7 @@ web-report/
 
 package-lock.json
 yarn.lock
+yarn-error.log
 
 # macOS
 .DS_Store
