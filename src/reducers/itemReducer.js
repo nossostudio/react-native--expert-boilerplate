@@ -1,10 +1,12 @@
-const nanoid = require('nanoid') //https://github.com/ai/nanoid
-import { ADD_ITEM, UPDATE_ITEM } from '../actions'
 
-export default function itemReducer(items = [], action) {
+import { ADD_ITEM, UPDATE_ITEM } from '../actions'
+const nanoid = require('nanoid') // https://github.com/ai/nanoid
+
+var newItems
+export default function itemReducer (items = [], action) {
   switch (action.type) {
     case ADD_ITEM:
-      var newItems = [...items]
+      newItems = [...items]
       newItems.push({
         ...action.item,
         id: nanoid(),
@@ -12,9 +14,9 @@ export default function itemReducer(items = [], action) {
       })
       return newItems
     case UPDATE_ITEM:
-      var newItems = [...items]
+      newItems = [...items]
       newItems = newItems.map(item => {
-        if (item.id == action.item.id) {
+        if (item.id === action.item.id) {
           const updatedItem = {
             ...item,
             ...action.item
