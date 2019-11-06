@@ -1,6 +1,6 @@
 
 import { ADD_ITEM, UPDATE_ITEM } from '../actions'
-const nanoid = require('nanoid') // https://github.com/ai/nanoid
+const nanoid = require('nanoid/non-secure') // https://github.com/ai/nanoid
 
 var newItems
 export default function itemReducer (items = [], action) {
