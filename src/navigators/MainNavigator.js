@@ -1,8 +1,20 @@
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
-import FirstScreen from './../screens/FirstScreen'
+// Constants
+import { navigationConfigs } from "../helpers/config";
 
+// Screens
+import FirstScreen from "./../screens/FirstScreen";
+import Sandbox from "./../screens/Sandbox";
+
+// Helper Functions
+function getInitialRoute() {
+  const { sandboxMode, initialRoute } = navigationConfigs;
+  return sandboxMode ? "Sandbox" : initialRoute;
+}
+
+// Constructor
 const MainNavigator = createStackNavigator(
   {
     FirstScreen: {
@@ -10,8 +22,18 @@ const MainNavigator = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    Sandbox: {
+      screen: Sandbox,
+      navigationOptions: {
+        title: "Sandbox"
+      }
     }
+  },
+  {
+    initialRouteName: getInitialRoute()
   }
-)
+);
 
-export default createAppContainer(MainNavigator)
+// Export
+export default createAppContainer(MainNavigator);
