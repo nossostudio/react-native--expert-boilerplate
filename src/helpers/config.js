@@ -1,8 +1,6 @@
 
 // Navigation: initial route, sandbox mode, etc.
-navigation = {
+export const navigationConfigs = {
 	initialRoute: "FirstScreen",
 	sandboxMode: false	
 }
-
-export default { navigation };

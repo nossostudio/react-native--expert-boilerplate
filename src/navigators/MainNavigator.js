@@ -2,7 +2,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 // Constants
-import Configurations from "../helpers/config";
+import { navigationConfigs } from "../helpers/config";
 
 // Screens
 import FirstScreen from "./../screens/FirstScreen";
@@ -10,9 +10,7 @@ import Sandbox from "./../screens/Sandbox";
 
 // Helper Functions
 function getInitialRoute() {
-  const {
-    navigation: { sandboxMode, initialRoute }
-  } = Configurations;
+  const { sandboxMode, initialRoute } = navigationConfigs;
   return sandboxMode ? "Sandbox" : initialRoute;
 }
 
