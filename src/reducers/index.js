@@ -1,5 +1,5 @@
-import { itemReducer } from './itemReducer';
+import itemReducer from './itemReducer'
 
-export default {
-    itemReducer
+module.exports = {
+  itemReducer
 }

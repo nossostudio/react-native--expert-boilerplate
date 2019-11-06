@@ -1,21 +1,33 @@
-import { ADD_ITEM } from '../actions'
 
-const cloneStateObject = function (state) {
-  const clone = JSON.parse(JSON.stringify(state))
-  return clone
-}
+import { ADD_ITEM, UPDATE_ITEM } from '../actions'
+const nanoid = require('nanoid/non-secure') // https://github.com/ai/nanoid
 
-let newState = {
-  items: []
-}
-
-export function itemReducer (state, action) {
+var newItems
+export default function itemReducer (items = [], action) {
   switch (action.type) {
     case ADD_ITEM:
-      newState = cloneStateObject(state)
-      newState.items.push(action.item)
-      return newState
+      newItems = [...items]
+      newItems.push({
+        ...action.item,
+        id: nanoid(),
+        date: new Date()
+      })
+      return newItems
+    case UPDATE_ITEM:
+      newItems = [...items]
+      newItems = newItems.map(item => {
+        if (item.id === action.item.id) {
+          const updatedItem = {
+            ...item,
+            ...action.item
+          }
+          return updatedItem
+        } else {
+          return item
+        }
+      })
+      return newItems
     default:
-      return state || newState
+      return items
   }
 }

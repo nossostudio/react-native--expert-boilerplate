@@ -1,5 +1,5 @@
 {
-  "name": "pjtoolbox",
+  "name": "pjtoolbox-rn",
   "description": "It comes with most important rn packages for developing apps.\nIt's based on Expo v35, react-navigation, jest (unit test - TDD), redux (global state manager), redux-form, etc.",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "expo": "^35.0.0",
+    "nanoid": "^2.1.6",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
