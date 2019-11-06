@@ -69,11 +69,6 @@ export default class FirstScreen extends React.Component {
 
       <View style={styles.container}>
         <Header />
-        <View style={{ height: 200, width: "100%", backgroundColor: 'purple', alignSelf: 'flex-start' }}>
-          <Text style={styles.title}>Vamos Produzir,</Text>
-          <Text style={styles.whiteTitle}>Thiago Silva</Text>
-          <Button title={"+"}></Button>
-        </View>
         <ScrollView>
 
           <View style={styles.container}>
