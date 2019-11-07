@@ -15,6 +15,7 @@
   "dependencies": {
     "expo": "^35.0.0",
     "expo-linear-gradient": "~7.0.0",
+    "hh-mm-ss": "^1.2.0",
     "nanoid": "^2.1.6",
     "react": "16.8.3",
     "react-dom": "16.8.3",

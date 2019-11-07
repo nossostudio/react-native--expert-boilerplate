@@ -3,10 +3,13 @@ import { View, Dimensions, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { iOSUIKit, robotoWeights } from 'react-native-typography'
 import FabButton from 'components/FabButton';
+const TimeFormat = require('hh-mm-ss')
 
 const screenHeight = Dimensions.get("window").height
 
-/* @Xande: Aê galerinha, vamos usar componentes funcionais (não classes) quando possível */
+const productionTimeRunningText = "Tempo rodando";
+const productionTimeSoFarText = "Tempo de produção do dia até agora";
+const restingTimeRunningText = "Tempo de descanso rodando"
 
 export default function Header(props) {
     return (
@@ -22,29 +25,42 @@ export default function Header(props) {
                     </Text>
                 </Text>
             }
-            {props.item.isRunning === true &&
-                <Text style={iOSUIKit.largeTitleEmphasizedWhite}>
-                    00:00:00 {'\n'}
-                    <Text style={[iOSUIKit.largeTitleEmphasizedWhite, robotoWeights.thin]}>
-                        Tempo rodando
-                    </Text>
-                </Text>
-            }
-            {props.item.isRunning === false &&
-                <Text >
-                    <Text style={[iOSUIKit.subheadWhite, { opacity: .55 }]}>
-                        01:23:48 {'\n'}
-                        <Text style={[iOSUIKit.subheadWhite, robotoWeights.thin]}>
-                            Tempo de produção do dia até agora {'\n'}
+            {props.item.isRunning !== undefined &&
+                <View>
+                    <Text
+                        style={
+                            props.item.isRunning === false ?
+                                [iOSUIKit.subheadWhite, { opacity: .34 }] :
+                                [iOSUIKit.largeTitleEmphasizedWhite]
+                        }
+                    >
+                        {TimeFormat.fromS(props.currentProductionTime, 'hh:mm:ss')} {'\n'}
+                        <Text
+                            style={
+                                props.item.isRunning === false ?
+                                    [iOSUIKit.subheadWhite, robotoWeights.thin] :
+                                    [iOSUIKit.largeTitleEmphasizedWhite, robotoWeights.thin]
+                            }
+                        >
+                            {
+                                props.item.isRunning === true ?
+                                    productionTimeRunningText : productionTimeSoFarText
+                            } {'\n'}
                         </Text>
                     </Text>
-                    <Text style={[iOSUIKit.largeTitleEmphasizedWhite]}>
-                        00:45:01 {'\n'}
-                        <Text style={[iOSUIKit.title3EmphasizedWhite, robotoWeights.thin]}>
-                            Tempo de descanso rodando
-                    </Text>
-                    </Text>
-                </Text>
+
+                    {props.item.isRunning === false &&
+                        <Text
+                            style={[
+                                iOSUIKit.largeTitleEmphasizedWhite,
+                            ]}
+                        >
+                            {TimeFormat.fromS(props.currentRestingTime, 'hh:mm:ss')} {'\n'}
+                            <Text style={[iOSUIKit.title3EmphasizedWhite, robotoWeights.thin]}>
+                                {restingTimeRunningText}
+                            </Text>
+                        </Text>}
+                </View>
             }
             <View style={styles.fabArea}>
                 <FabButton
@@ -62,7 +78,7 @@ export default function Header(props) {
                     onPress={props.methods.newItem}
                 />
             </View>
-        </LinearGradient>
+        </LinearGradient >
     )
 }
 

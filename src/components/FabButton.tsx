@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, Platform } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import Touchable from 'components/Touchable';
 import { LinearGradient } from 'expo-linear-gradient';
