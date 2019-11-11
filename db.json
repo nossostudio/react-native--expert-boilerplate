@@ -1,0 +1,11 @@
+{
+  "timesheets": [
+    {
+      "id": "507f1f77bcf86cd799439011",
+      "date": "2019-11-11",
+      "restingTime": 10000,
+      "productionTime": 5000,
+      "isRunningProduction": false
+    }
+  ]
+}

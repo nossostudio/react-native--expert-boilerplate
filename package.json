@@ -13,7 +13,9 @@
     "eslint": "npx eslint --fix .\\src\\"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "expo": "^35.0.0",
+    "json-server": "^0.15.1",
     "nanoid": "^2.1.6",
     "react": "16.8.3",
     "react-dom": "16.8.3",
@@ -24,7 +26,9 @@
     "react-navigation-stack": "^1.10.3",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
-    "redux-form": "^8.2.6"
+    "redux-form": "^8.2.6",
+    "redux-middleware-injector": "^1.0.3",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/react": "^16.8.23",
