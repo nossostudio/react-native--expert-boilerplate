@@ -27,8 +27,7 @@ export function getItemsAsnc(items) {
 export function getItems() {
   return dispatch => {
     axios.get('/timesheets').then(results => {
-      console.log(results);
       dispatch(getItemsAsnc(results.data));
-    }).catch(err => console.log(err.message));
+    }).catch(err => alert(err.message));
   }
 }

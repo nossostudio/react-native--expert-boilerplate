@@ -1,5 +1,6 @@
 
 import { ADD_ITEM, UPDATE_ITEM, GET_ITEMS } from '../actions';
+import _ from 'lodash';
 const nanoid = require('nanoid/non-secure'); // https://github.com/ai/nanoid
 
 var newItems;
@@ -28,8 +29,10 @@ export default function itemReducer(items = [], action) {
       });
       return newItems
     case GET_ITEMS:
-      newItems = [...items];
-      console.log('REDUCER', newItems);
+      let groupedItems = _.groupBy(action.items, 'title');
+      newItems = Object.keys(groupedItems).map((key) => {
+        return {title: key, data: groupedItems[key]}
+      });
       return newItems
     default:
       return items
