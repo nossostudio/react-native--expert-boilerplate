@@ -2,9 +2,10 @@
 import { ADD_ITEM, UPDATE_ITEM, GET_ITEMS } from '../actions';
 import _ from 'lodash';
 const nanoid = require('nanoid/non-secure'); // https://github.com/ai/nanoid
+import itemsMock from './items.mock'
 
 var newItems;
-export default function itemReducer(items = [], action) {
+export default function itemReducer(items = itemsMock, action) {
   switch (action.type) {
     case ADD_ITEM:
       newItems = [...items];
