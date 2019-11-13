@@ -2,7 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Header from './../components/Header';
-import { StyleSheet, Text, View, ScrollView, SectionList, Button, Dimensions } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    SectionList,
+    Image,
+    Button,
+    Dimensions
+} from 'react-native';
 // import { StackedBarChart } from "react-native-chart-kit";
 import { StackedBarChart, Grid, XAxis } from 'react-native-svg-charts';
 var moment = require('moment');
@@ -11,146 +20,97 @@ import { getAllMonths, getMonth, getAllDays, getDay } from '../helpers/Months';
 import _ from 'lodash';
 const windowWidth = Dimensions.get("window").width
 
-const data = [
-    {
-        title: 'ùltimos registros de Outubro',
-        data: [
-            {
-                day: new Date(2019, 10, 11),
-                restingTime: 50,
-                productionTime: 19
-            },
-            {
-                day: new Date(2019, 10, 12),
-                restingTime: 50,
-                productionTime: 14
-            },
-            {
-                day: new Date(2019, 10, 13),
-                restingTime: 50,
-                productionTime: 60
-            },
-            {
-                day: new Date(2019, 10, 14),
-                restingTime: 50,
-                productionTime: 12,
-            },
-            {
-                day: new Date(2019, 10, 15),
-                restingTime: 50,
-                productionTime: 37,
-            },
-            {
-                day: new Date(2019, 10, 16),
-                restingTime: 50,
-                productionTime: 55,
-            },
-            {
-                day: new Date(2019, 10, 17),
-                restingTime: 53,
-                productionTime: 49,
-            }
-        ]
-    }
-]
+const colors = ['#7b4173', '#a55194'];
+const keys = ['restingTime', 'productionTime'];
 
-const colors = ['#7b4173', '#a55194']
-const keys = ['restingTime', 'productionTime']
-
-// const chartConfig = {
-//   backgroundColor: "#2398EF",
-//   backgroundGradientFrom: "#2398EF",
-//   backgroundGradientTo: "#2398EF",
-//   decimalPlaces: 2, // optional, defaults to 2dp
-//   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//   propsForDots: {
-//     r: "6",
-//     strokeWidth: "2",
-//     stroke: "#d3eafb"
-//   }
-// }
-// let mockValueA = Math.floor(Math.random() * 100) / 100;
-// let mockValueB = Math.floor(Math.random() * 100) / 100;
-// const data = {
-//   labels: ["1", "2", "3", "4", "5", "6", "7"],
-//   legend: ['P', 'D'],
-//   data: [
-//     [mockValueA, mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB]
-//   ],
-//   barColors: ["#118866", "#734086"]
-// };
+const validateTime = (time) => {
+    let splitted = time.split(':');
+    let hour = +splitted[0].replace('h', '');
+    let min = +splitted[1].replace('min', '');
+    let second = +splitted[2].replace('s', '');
+    let fullTime = `${hour}h:${min}min:${second}s`;
+    let minutesTime = `${min}min:${second}s`;
+    let secondTime = `${second}s`;
+    return `${hour > 0 ? fullTime : min > 0 ? minutesTime : secondTime}`;
+}
 const SectionListItem = ({ date, restingTime, productionTime }) => {
     return (
         <View style={styles.SectionListItem}>
-            <Text>{date}</Text>
-            <Text>{productionTime}</Text>
-            <Text>{restingTime}</Text>
+            <View>
+                <Image
+                    source={require('../../assets/calendar.png')}
+                    fadeDuration={0}
+                    style={{ width: 40, height: 40 }} />
+                <Text style={{ position: 'absolute', top: 10, left: 8, fontWeight: 'bold', fontSize: 20 }}>{moment(date).format('DD')}</Text>
+            </View>
+            <View>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.55)', fontWeight: 'bold' }}>
+                    {validateTime(moment(date).second(restingTime).format('HH[h]:mm[min]:ss[s]'))}
+                </Text>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.55)', fontWeight: 'bold', fontSize: 12, textAlign: 'right' }}>de pausa</Text>
+            </View>
+            <View>
+                <Text style={{ color: '#000', fontWeight: 'bold' }}>
+                    {validateTime(moment(date).second(productionTime).format('HH[h]:mm[min]:ss[s]'))}
+                </Text>
+                <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 12, textAlign: 'right' }}>de Produção</Text>
+            </View>
         </View>
     )
 }
 class FirstScreen extends React.Component {
-    state = {
-        months: getAllMonths(),
-        chartData: []
-    }
-    constructor(props) {
-        super(props);
-        this.getChartData = this.getChartData.bind(this);
-    }
-    async componentDidMount() {
-        await this.props['onGetItems']();
-    }
-    getChartData(items) {
-        return items[0].data.map(item => getDay(moment(item.date).day()))
-    }
     render() {
         return (
             <View style={styles.container}>
-                <Header />
                 <Text style={styles.title}>Visão geral</Text>
-                <View style={{ flex: 1 }}>
-                    <StackedBarChart
-                        style={{ width: windowWidth - 32, height: 200 }}
-                        keys={keys}
-                        colors={colors}
-                        data={data[0].data}
-                        showGrid={true}
-                        contentInset={{ top: 16, bottom: 16 }}
-                    >
-                        <Grid />
-                    </StackedBarChart>
-                    <XAxis
-                        style={{ marginHorizontal: 16 }}
-                        data={data[0].data}
-                        formatLabel={(_, index) => getDay(moment(data[0].data[index].day).day()).substring(0,3)}
-                        contentInset={{ left: 10, right: 10 }}
-                        svg={{ fontSize: 10, fill: 'black' }}
-                    />
-                </View>
-
-                <View style={styles.container}>
-                    {/* <SectionList
-                        sections={this.props['items']}
-                        keyExtractor={(item, index) => item.id + index}
-                        renderSectionHeader={({ section: { title } }) => (
-                            <Text style={styles.title}>{title}</Text>
-                        )}
-                        renderItem={({ item }) => (
-                            <SectionListItem date={item.date} restingTime={item.restingTime} productionTime={item.productionTime} />
-                        )} /> */}
-                </View>
+                {/* <StackedBarChart
+                    style={{ height: 200 }}
+                    keys={keys}
+                    colors={colors}
+                    data={this.props.lastSeven}
+                    showGrid={true}
+                    contentInset={{ top: 16, bottom: 16 }}
+                >
+                    <Grid />
+                </StackedBarChart>
+                <XAxis
+                    data={this.props.lastSeven}
+                    formatLabel={(_, index) => getDay(moment(this.props.lastSeven[index].day).day()).substring(0, 2)}
+                    contentInset={{ left: 10, right: 10 }}
+                    svg={{ fontSize: 10, fill: 'black' }}
+                /> */}
+                <SectionList
+                    style={{ flex: 1 }}
+                    sections={this.props.sections}
+                    keyExtractor={(item, index) => `${index + Math.random()}`}
+                    renderSectionHeader={({ section: { title } }) => (
+                        <Text style={styles.title}>{title}</Text>
+                    )}
+                    renderItem={({ item }) => (
+                        <SectionListItem date={item.date} restingTime={item.restingTime} productionTime={item.productionTime} />
+                    )} />
             </View>
-
         )
     }
 }
+
+const mapStoreToProps = store => {
+    const sections = store.itemsReducer.map(monthItem => ({
+        title: "Mês de " + getMonth((new Date(monthItem.month)).getMonth()),
+        data: monthItem.items
+    }))
+
+    const lastSeven = store.itemsReducer[0].items.slice(0, 6)
+    return {
+        lastSeven: lastSeven,
+        sections: sections
+    }
+}
+
+export default connect(
+    mapStoreToProps,
+    null
+)(FirstScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -161,15 +121,22 @@ const styles = StyleSheet.create({
     },
     SectionListItem: {
         flex: 1,
-        backgroundColor: '#fff',
+        flexDirection: 'row',
+        backgroundColor: '#F1F1F1',
         alignItems: 'center',
         justifyContent: 'space-between',
         borderRadius: 5,
-        borderColor: "#ccc"
+        borderColor: "#ccc",
+        borderWidth: 1,
+        padding: 15,
+        marginVertical: 2,
+        marginHorizontal: 16,
+        width: windowWidth-32
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 30,
+        textAlign: 'center'
     },
     whiteTitle: {
         color: '#fff',
@@ -177,21 +144,3 @@ const styles = StyleSheet.create({
         fontSize: 30
     }
 });
-
-
-const mapStateToProps = state => {
-    return {
-        items: state.itemsReducer || []
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onGetItems: () => dispatch(actions.getItems())
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FirstScreen);
