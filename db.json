@@ -4,32 +4,32 @@
       "id": "507f1f77bcf86cd799439011",
       "title": "Últimos registros de Novembro",
       "date": "2019-11-08",
-      "restingTime": 10,
-      "productionTime": 5,
+      "restingTime": 3600,
+      "productionTime": 28800,
       "isRunningProduction": false
     },
     {
       "id": "507f1f77bcf86cd799439011",
       "title": "Últimos registros de Novembro",
       "date": "2019-11-12",
-      "restingTime": 15,
-      "productionTime": 50,
+      "restingTime": 60,
+      "productionTime": 80,
       "isRunningProduction": false
     },
     {
       "id": "507f1f77bcf86cd799439011",
       "title": "Últimos registros de Outubro",
       "date": "2019-10-11",
-      "restingTime": 10,
-      "productionTime": 50,
+      "restingTime": 1236,
+      "productionTime": 90,
       "isRunningProduction": false
     },
     {
       "id": "507f1f77bcf86cd799439011",
       "title": "Últimos registros de Outubro",
       "date": "2019-10-15",
-      "restingTime": 10,
-      "productionTime": 50,
+      "restingTime": 3650,
+      "productionTime": 9888,
       "isRunningProduction": false
     }
   ]
