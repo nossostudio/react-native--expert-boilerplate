@@ -6,18 +6,14 @@ import {
     StyleSheet,
     Text,
     View,
-    ScrollView,
     SectionList,
     Image,
-    Button,
     Dimensions
 } from 'react-native';
-// import { StackedBarChart } from "react-native-chart-kit";
-import { StackedBarChart, Grid, XAxis } from 'react-native-svg-charts';
+import { StackedBarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
 var moment = require('moment');
 import 'moment/locale/pt-br.js';
-import { getAllMonths, getMonth, getAllDays, getDay } from '../helpers/Months';
-import _ from 'lodash';
+import { getMonth, getDay } from '../helpers/Months';
 const windowWidth = Dimensions.get("window").width
 
 const colors = ['#7b4173', '#a55194'];
@@ -63,22 +59,39 @@ class FirstScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Visão geral</Text>
-                {/* <StackedBarChart
-                    style={{ height: 200 }}
-                    keys={keys}
-                    colors={colors}
-                    data={this.props.lastSeven}
-                    showGrid={true}
-                    contentInset={{ top: 16, bottom: 16 }}
-                >
-                    <Grid />
-                </StackedBarChart>
-                <XAxis
-                    data={this.props.lastSeven}
-                    formatLabel={(_, index) => getDay(moment(this.props.lastSeven[index].day).day()).substring(0, 2)}
-                    contentInset={{ left: 10, right: 10 }}
-                    svg={{ fontSize: 10, fill: 'black' }}
-                /> */}
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <YAxis
+                            contentInset={{ top: 16, bottom: 16 }}
+                            data={this.props.lastSeven}
+                            min={0}
+                            max={8}
+                            svg={{
+                                fill: 'black',
+                                fontSize: 10,
+                            }}
+                            numberOfTicks={8}
+                            //formatLabel={(value) => "A"}
+                        />
+                        <StackedBarChart
+                            style={{ width: windowWidth - 32, height: 200 }}
+                            keys={keys}
+                            colors={colors}
+                            data={this.props.lastSeven}
+                            showGrid={true}
+                            contentInset={{ top: 16, bottom: 16 }}
+                        >
+                            <Grid />
+                        </StackedBarChart>
+                    </View>
+                    <XAxis
+                        style={{ marginHorizontal: 16 }}
+                        data={this.props.lastSeven}
+                        formatLabel={(_, index) => getDay(moment(this.props.lastSeven[index].day).day()).substring(0, 3)}
+                        contentInset={{ left: 10, right: 10 }}
+                        svg={{ fontSize: 10, fill: 'black' }}
+                    />
+                </View>
                 <SectionList
                     style={{ flex: 1 }}
                     sections={this.props.sections}
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
         padding: 15,
         marginVertical: 2,
         marginHorizontal: 16,
-        width: windowWidth-32
+        width: windowWidth - 32
     },
     title: {
         fontWeight: 'bold',
