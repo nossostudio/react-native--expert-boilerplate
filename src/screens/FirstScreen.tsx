@@ -2,7 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Header from './../components/Header';
-import { StyleSheet, Text, View, ScrollView, SectionList, Button, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  SectionList,
+  Image,
+  Button,
+  Dimensions
+} from 'react-native';
 // import { StackedBarChart } from "react-native-chart-kit";
 import { StackedBarChart, Grid, XAxis } from 'react-native-svg-charts';
 var moment = require('moment');
@@ -12,7 +21,7 @@ import _ from 'lodash';
 
 const data = [
   {
-    title: 'ùltimos registros de Outubro',
+    title: 'últimos registros de Outubro',
     data: [
       {
         day: new Date(2019, 10, 11),
@@ -51,46 +60,43 @@ const data = [
       }
     ]
   }
-]
+];
 
-const colors = ['#7b4173', '#a55194']
-const keys = ['restingTime', 'productionTime']
+const colors = ['#7b4173', '#a55194'];
+const keys = ['restingTime', 'productionTime'];
 
-// const chartConfig = {
-//   backgroundColor: "#2398EF",
-//   backgroundGradientFrom: "#2398EF",
-//   backgroundGradientTo: "#2398EF",
-//   decimalPlaces: 2, // optional, defaults to 2dp
-//   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//   propsForDots: {
-//     r: "6",
-//     strokeWidth: "2",
-//     stroke: "#d3eafb"
-//   }
-// }
-// let mockValueA = Math.floor(Math.random() * 100) / 100;
-// let mockValueB = Math.floor(Math.random() * 100) / 100;
-// const data = {
-//   labels: ["1", "2", "3", "4", "5", "6", "7"],
-//   legend: ['P', 'D'],
-//   data: [
-//     [mockValueA, mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB],
-//     [++mockValueA, ++mockValueB]
-//   ],
-//   barColors: ["#118866", "#734086"]
-// };
+const validateTime = (time) => {
+  let splitted = time.split(':');
+  let hour = +splitted[0].replace('h', '');
+  let min = +splitted[1].replace('min', '');
+  let second = +splitted[2].replace('s', '');
+  let fullTime = `${hour}h:${min}min:${second}s`;
+  let minutesTime = `${min}min:${second}s`;
+  let secondTime = `${second}s`;
+  return `${hour > 0 ? fullTime : min > 0 ? minutesTime : secondTime}`;
+}
 const SectionListItem = ({ date, restingTime, productionTime }) => {
   return (
     <View style={styles.SectionListItem}>
-      <Text>{date}</Text>
-      <Text>{productionTime}</Text>
-      <Text>{restingTime}</Text>
+      <View style={{ position: 'relative' }}>
+        <Image
+          source={require('../../assets/calendar.png')}
+          fadeDuration={0}
+          style={{ width: 40, height: 40 }} />
+        <Text style={{ position: 'absolute', top: 10, left: 8, fontWeight: 'bold', fontSize: 20 }}>{moment(date).format('DD')}</Text>
+      </View>
+      <View>
+        <Text style={{ color: 'rgba(0, 0, 0, 0.55)', fontWeight: 'bold' }}>
+          {validateTime(moment(date).second(restingTime).format('HH[h]:mm[min]:ss[s]'))}
+        </Text>
+        <Text style={{ color: 'rgba(0, 0, 0, 0.55)', fontWeight: 'bold', fontSize: 12, textAlign: 'right' }}>de pausa</Text>
+      </View>
+      <View>
+        <Text style={{ color: '#000', fontWeight: 'bold' }}>
+          {validateTime(moment(date).second(productionTime).format('HH[h]:mm[min]:ss[s]'))}
+        </Text>
+        <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 12, textAlign: 'right' }}>de Produção</Text>
+      </View>
     </View>
   )
 }
@@ -113,7 +119,7 @@ class FirstScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header />
-        <ScrollView>
+        <ScrollView style={{ marginHorizontal: 15, marginTop: 15 }}>
           <View>
             <Text style={styles.title}>Visão geral</Text>
             <StackedBarChart
@@ -129,7 +135,7 @@ class FirstScreen extends React.Component {
             <XAxis
               style={{ marginHorizontal: -10 }}
               data={data[0].data}
-              xAcessor={({index}) => {console.log(index); return index}}
+              xAcessor={({ index }) => { console.log(index); return index }}
               formatLabel={(value, index) => "day" + value}
               contentInset={{ left: 10, right: 10 }}
               svg={{ fontSize: 10, fill: 'black' }}
@@ -162,11 +168,15 @@ const styles = StyleSheet.create({
   },
   SectionListItem: {
     flex: 1,
-    backgroundColor: '#fff',
+    flexDirection: 'row',
+    backgroundColor: '#F1F1F1',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 5,
-    borderColor: "#ccc"
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 20
   },
   title: {
     fontWeight: 'bold',
