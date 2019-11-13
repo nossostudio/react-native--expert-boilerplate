@@ -5,7 +5,7 @@ const nanoid = require('nanoid/non-secure'); // https://github.com/ai/nanoid
 import itemsMock from './items.mock'
 
 var newItems;
-export default function itemReducer(items = itemsMock, action) {
+export default function itemsReducer(items = itemsMock, action) {
   switch (action.type) {
     case ADD_ITEM:
       newItems = [...items];

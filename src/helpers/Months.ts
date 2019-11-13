@@ -13,13 +13,13 @@ export enum MonthsEnum {
   DEZEMBRO = 12
 }
 export enum DaysEnum {
-  DOMINGO = 1,
-  SEGUNDA = 2,
-  TERCA = 3,
-  QUARTA = 4,
-  QUINTA = 5,
-  SEXTA = 6,
-  SÁBADO = 7
+  DOMINGO = 0,
+  SEGUNDA = 1,
+  TERCA = 2,
+  QUARTA = 3,
+  QUINTA = 4,
+  SEXTA = 5,
+  SÁBADO = 6
 }
 
 export const getAllMonths = () => {
