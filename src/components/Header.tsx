@@ -1,21 +1,22 @@
 import React from 'react';
 import { View, Dimensions, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated from 'react-native-reanimated';
 import { iOSUIKit, robotoWeights } from 'react-native-typography'
 import FabButton from 'components/FabButton';
 const TimeFormat = require('hh-mm-ss')
+import { headerHeight } from '@helpers/constants'
 
-const screenHeight = Dimensions.get("window").height
-
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 const productionTimeRunningText = "Tempo rodando";
 const productionTimeSoFarText = "Tempo de produção do dia até agora";
 const restingTimeRunningText = "Tempo de descanso rodando"
 
 export default function Header(props) {
     return (
-        <LinearGradient
+        <AnimatedLinearGradient
             colors={['#3E6BE0', '#2348D4']}
-            style={props.styles}
+            style={[props.styles, { height: props.height }]}
         >
             {props.item.isRunning === undefined &&
                 <Text style={iOSUIKit.largeTitleEmphasizedWhite}>
@@ -78,21 +79,12 @@ export default function Header(props) {
                     onPress={props.methods.newItem}
                 />
             </View>
-        </LinearGradient >
+        </AnimatedLinearGradient>
     )
-}
-
-function getBestHeaderHeight() {
-    if (screenHeight) {
-        return 377
-    } else {
-        return 233
-    }
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: getBestHeaderHeight(),
         width: "100%",
         backgroundColor: 'purple',
         alignSelf: 'flex-start',
@@ -111,5 +103,6 @@ const styles = StyleSheet.create({
 
 Header.defaultProps = {
     styles: styles.container,
-    userName: "Thiago Silva"
+    height: headerHeight,
+    userName: "Thiago Silva",
 }

@@ -14,7 +14,11 @@ import { VictoryStack, VictoryLabel, VictoryBar, VictoryChart, VictoryTheme } fr
 var moment = require('moment');
 import 'moment/locale/pt-br.js';
 import { getMonth, getDay } from '../helpers/Months';
-import { headerHeight, windowWidth, hhmm, colors } from '@helpers/constants'
+import { headerHeight, windowWidth, hhmm, colors } from '@helpers/constants';
+import Animated from 'react-native-reanimated';
+
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+
 
 const validateTime = (time) => {
     let splitted = time.split(':');
@@ -52,6 +56,17 @@ const SectionListItem = ({ date, restingTime, productionTime }) => {
     )
 }
 class FirstScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.scrollY = new Animated.Value(0);
+        this.animatedHeaderHeight = Animated.interpolate(this.scrollY, {
+            inputRange: [0, 100],
+            outputRange: [headerHeight, headerHeight * 0.7],
+            extrapolate: 'clamp'
+        })
+    }
+
+
     interval = null
     state = {
         currentProductionTime: 0,
@@ -113,12 +128,14 @@ class FirstScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Header item={this.state.currentItem}
+                <Header
+                    height={this.animatedHeaderHeight}
+                    item={this.state.currentItem}
                     methods={this.methods}
                     currentProductionTime={this.state.currentProductionTime}
                     currentRestingTime={this.state.currentRestingTime}
                 />
-                <SectionList
+                <AnimatedSectionList
                     style={{ flex: 1 }}
                     sections={this.props.sections}
                     keyExtractor={(item, index) => `${index + Math.random()}`}
@@ -164,6 +181,18 @@ class FirstScreen extends React.Component {
                     )}
                     renderItem={({ item }) => (
                         <SectionListItem date={item.date} restingTime={item.restingTime} productionTime={item.productionTime} />
+                    )}
+                    onScroll={Animated.event(
+                        [
+                            {
+                                nativeEvent: {
+                                    contentOffset: {
+                                        y: this.scrollY,
+                                    },
+                                },
+                            },
+                        ],
+                        { useNativeDriver: true },
                     )} />
             </View>
         )

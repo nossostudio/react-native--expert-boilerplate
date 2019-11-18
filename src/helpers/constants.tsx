@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
-const headerHeight = windowHeight/3
+const headerHeight = windowHeight/2
 
 function pad(num) {
     return ("0"+num).slice(-2);
