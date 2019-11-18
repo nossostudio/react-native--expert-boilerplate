@@ -9,16 +9,12 @@ import {
     View,
     SectionList,
     Image,
-    Dimensions
 } from 'react-native';
-import { StackedBarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
+import { VictoryStack, VictoryLabel, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 var moment = require('moment');
 import 'moment/locale/pt-br.js';
 import { getMonth, getDay } from '../helpers/Months';
-const windowWidth = Dimensions.get("window").width
-
-const colors = ['#7b4173', '#a55194'];
-const keys = ['restingTime', 'productionTime'];
+import { headerHeight, windowWidth, hhmm, colors } from '@helpers/constants'
 
 const validateTime = (time) => {
     let splitted = time.split(':');
@@ -129,40 +125,39 @@ class FirstScreen extends React.Component {
                     renderSectionHeader={({ section: { title } }) => (
                         <View>
                             { /** Crianças, não façam isso em casa - esse experimento é controlado por um profisional */
-                                title == "Mês de " + getMonth((new Date()).getMonth()+1) && (<View style={{ flex: 1 }}>
+                                title == "Mês de " + getMonth((new Date()).getMonth() + 1) && (<View style={{ flex: 1 }}>
                                     <Text style={styles.title}>Visão geral</Text>
-
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <YAxis
-                                            contentInset={{ top: 16, bottom: 16 }}
-                                            data={this.props.lastSeven}
-                                            min={0}
-                                            max={8}
-                                            svg={{
-                                                fill: 'black',
-                                                fontSize: 10,
-                                            }}
-                                            numberOfTicks={8}
-                                        //formatLabel={(value) => "A"}
-                                        />
-                                        <StackedBarChart
-                                            style={{ width: windowWidth - 32, height: 200 }}
-                                            keys={keys}
-                                            colors={colors}
-                                            data={this.props.lastSeven}
-                                            showGrid={true}
-                                            contentInset={{ top: 16, bottom: 16 }}
+                                    <View>
+                                        <VictoryChart
+                                            padding={{ top: 32, bottom: 32, left: 32, right: 16 }}
+                                            width={windowWidth}
+                                            height={headerHeight}
+                                            theme={VictoryTheme.material}
+                                            //animate
+                                            domainPadding={{ x: [20, 16] }}
                                         >
-                                            <Grid />
-                                        </StackedBarChart>
+                                            <VictoryStack>
+                                                <VictoryBar
+                                                    data={this.props.lastSeven} x="day" y="restingTime"
+                                                    labels={({ datum }) => datum.restingTimeHHmm}
+                                                    barRatio={1.1}
+                                                    style={{ data: { fill: colors.chart.restingTime }, labels: { fill: colors.chart.restingTime, fontSize: 9, fontWeight: '100' } }}
+                                                />
+                                                <VictoryBar
+                                                    data={this.props.lastSeven} x="day" y="productionTime"
+                                                    labels={({ datum }) => datum.productionTimeHHmm}
+                                                    barRatio={1.1}
+                                                    style={{ data: { fill: colors.primary }, labels: { fill: "white", fontSize: 13, fontWeight: '100' } }}
+                                                    labelComponent={
+                                                        <VictoryLabel
+                                                            verticalAnchor="start"
+                                                            dx={32}
+                                                            angle="90" />
+                                                    }
+                                                    cornerRadius={{ top: 5 }} />
+                                            </VictoryStack>
+                                        </VictoryChart>
                                     </View>
-                                    <XAxis
-                                        style={{ marginHorizontal: 16 }}
-                                        data={this.props.lastSeven}
-                                        formatLabel={(_, index) => getDay(moment(this.props.lastSeven[index].day).day()).substring(0, 3)}
-                                        contentInset={{ left: 10, right: 10 }}
-                                        svg={{ fontSize: 10, fill: 'black' }}
-                                    />
                                 </View>)}
                             <Text style={styles.title}>{title}</Text>
                         </View>
@@ -181,7 +176,13 @@ const mapStoreToProps = store => {
         data: monthItem.items
     }))
 
-    const lastSeven = store.itemsReducer[0].items.slice(0, 6)
+    const lastSeven = store.itemsReducer[0].items.slice(0, 7).map(item => ({
+        day: getDay(moment(item.day).day()).substring(0, 3),
+        productionTime: item.productionTime / 3600,
+        productionTimeHHmm: hhmm(item.productionTime),
+        restingTime: item.restingTime / 3600,
+        restingTimeHHmm: hhmm(item.restingTime),
+    }))
     return {
         lastSeven: lastSeven,
         sections: sections
