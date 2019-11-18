@@ -1,5 +1,5 @@
-import itemReducer from './itemReducer'
+import itemsReducer from './itemsReducer'
 
 module.exports = {
-  itemReducer
+  itemsReducer
 }
