@@ -87,11 +87,14 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         backgroundColor: 'purple',
-        alignSelf: 'flex-start',
+        position: 'absolute',
+        top: 0,
+        right: 0, left: 0,
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomLeftRadius: 34,
-        borderBottomRightRadius: 34
+        borderBottomRightRadius: 34,
+        zIndex: 999
     },
     fabArea: {
         flexDirection: 'row',

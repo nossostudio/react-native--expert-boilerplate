@@ -60,7 +60,7 @@ class FirstScreen extends React.Component {
         super(props);
         this.scrollY = new Animated.Value(0);
         this.animatedHeaderHeight = Animated.interpolate(this.scrollY, {
-            inputRange: [0, 100],
+            inputRange: [100, headerHeight],
             outputRange: [headerHeight, headerHeight * 0.7],
             extrapolate: 'clamp'
         })
@@ -81,7 +81,7 @@ class FirstScreen extends React.Component {
             this.interval = setInterval(() => this.setState({
                 currentProductionTime: this.state.currentProductionTime + 1
             }), 1000)
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            //LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({
                 currentItem: {
                     isRunning: true
@@ -93,7 +93,7 @@ class FirstScreen extends React.Component {
             this.interval = setInterval(() => this.setState({
                 currentRestingTime: this.state.currentRestingTime + 1
             }), 1000)
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            //LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({
                 currentItem: {
                     ...this.state.currentItem,
@@ -106,7 +106,7 @@ class FirstScreen extends React.Component {
             this.interval = setInterval(() => this.setState({
                 currentProductionTime: this.state.currentProductionTime + 1
             }), 1000)
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            //LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({
                 currentItem: {
                     ...this.state.currentItem,
@@ -120,7 +120,7 @@ class FirstScreen extends React.Component {
                 currentProductionTime: 0,
                 currentRestingTime: 0
             })
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            //LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({ currentItem: {} })
         }
     }
@@ -136,7 +136,7 @@ class FirstScreen extends React.Component {
                     currentRestingTime={this.state.currentRestingTime}
                 />
                 <AnimatedSectionList
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, paddingTop: headerHeight + 30 }}
                     sections={this.props.sections}
                     keyExtractor={(item, index) => `${index + Math.random()}`}
                     renderSectionHeader={({ section: { title } }) => (
@@ -148,7 +148,7 @@ class FirstScreen extends React.Component {
                                         <VictoryChart
                                             padding={{ top: 32, bottom: 32, left: 32, right: 16 }}
                                             width={windowWidth}
-                                            height={headerHeight}
+                                            height={headerHeight*0.7}
                                             theme={VictoryTheme.material}
                                             //animate
                                             domainPadding={{ x: [20, 16] }}
