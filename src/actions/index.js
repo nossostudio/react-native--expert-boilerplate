@@ -3,7 +3,8 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const GET_ITEMS = 'GET_ITEMS';
 
-export function addItem(item) {
+export function addItem(productionTime, restingTime) {
+  let item = {productionTime, restingTime};
   return {
     type: ADD_ITEM,
     item

@@ -71,51 +71,52 @@ class FirstScreen extends React.Component {
       clearInterval(this.interval)
       this.interval = setInterval(() => this.setState({
         currentProductionTime: this.state.currentProductionTime + 1
-      }), 1000)
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      }), 1000);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       this.setState({
         currentItem: {
           isRunning: true
         }
-      })
+      });
     },
     pause: () => {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
       this.interval = setInterval(() => this.setState({
         currentRestingTime: this.state.currentRestingTime + 1
-      }), 1000)
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      }), 1000);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       this.setState({
         currentItem: {
           ...this.state.currentItem,
           isRunning: false
         }
-      })
+      });
     },
     play: () => {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
       this.interval = setInterval(() => this.setState({
         currentProductionTime: this.state.currentProductionTime + 1
-      }), 1000)
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      }), 1000);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       this.setState({
         currentItem: {
           ...this.state.currentItem,
           isRunning: true
         }
-      })
+      });
     },
     stop: () => {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
+      this.props['addItem'](this.state.currentProductionTime, this.state.currentRestingTime);
       this.setState({
         currentProductionTime: 0,
         currentRestingTime: 0
-      })
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-      this.setState({ currentItem: {} })
+      });
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      this.setState({ currentItem: {} });
     }
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
@@ -179,17 +180,21 @@ class FirstScreen extends React.Component {
 
 const mapStoreToProps = store => {
   const sections = store.itemsReducer.map(monthItem => ({
-    title: "Mês de " + getMonth((new Date(monthItem.month)).getMonth()),
+    title: "Mês de " + getMonth(monthItem.month.getMonth()),
     data: monthItem.items
   }))
 
-  const lastSeven = store.itemsReducer[0].items.slice(0, 6)
+  const lastSeven = store.itemsReducer && store.itemsReducer.length > 0 ? store.itemsReducer[0].items.slice(0, 6) : [];
   return { lastSeven, sections }
 }
-
+const mapDispatchToProps = dispatch => {
+  return {
+    addItem: (productionTime, restingTime) => dispatch(actions.addItem(productionTime, restingTime))
+  }
+}
 export default connect(
   mapStoreToProps,
-  null
+  mapDispatchToProps
 )(FirstScreen);
 
 const styles = StyleSheet.create({

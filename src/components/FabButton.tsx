@@ -20,7 +20,7 @@ export default function FabButton(props) {
                 <Touchable
                     onPress={props.onPress}
                 >
-                    <Entypo name={props.iconName} size={props.iconSize} color={props.iconColor} onPress={props.onPress} />
+                    <Entypo name={props.iconName} size={props.iconSize} color={props.iconColor}  />
                 </Touchable>
             </LinearGradient>
         )
