@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "React-Native-Expo-Web-Redux-React-Navigation-Boilerplate",
-    "slug": "react-native-expo-web-redux-react-navigation-boilerplate",
+    "name": "pjtoolbox",
+    "slug": "pjtoolbox",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
