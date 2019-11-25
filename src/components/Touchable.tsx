@@ -3,5 +3,8 @@ import { TouchableNativeFeedback, TouchableOpacity, Platform } from 'react-nativ
 import * as Haptics from 'expo-haptics';
 
 export default function Touchable(props) {
-    return Platform.OS === "android" ? <TouchableNativeFeedback {...props} onPress={function onPress() { props.onPress(); Haptics.selectionAsync(); }} /> : <TouchableOpacity {...props} onPress={function onPress() { props.onPress(); Haptics.selectionAsync(); }} />
+    return Platform.OS === "android" ?
+        <TouchableNativeFeedback {...props} onPress={function onPress() { props.onPress(); Haptics.selectionAsync(); }} />
+        :
+        <TouchableOpacity {...props} onPress={function onPress() { props.onPress(); Haptics.selectionAsync(); }} />
 }
