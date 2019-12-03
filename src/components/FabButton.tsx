@@ -6,21 +6,28 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function FabButton(props) {
     if (props.isVisible)
         return (
-            <LinearGradient
-                colors={['#E0B7C5', 'pink']}
+            <Touchable
                 style={{
                     height: props.height,
                     width: props.width,
                     borderRadius: props.borderRadius,
                     backgroundColor: props.backgroundColor,
-                    justifyContent: 'center', alignItems: 'center'
-                }}>
-                <Touchable
-                    onPress={props.onPress}
-                >
+                    justifyContent: 'center', alignItems: 'center',
+                }}
+                onPress={props.onPress}
+            >
+                <LinearGradient
+                    colors={['#E0B7C5', 'pink']}
+                    style={{
+                        height: props.height,
+                        width: props.width,
+                        borderRadius: props.borderRadius,
+                        backgroundColor: props.backgroundColor,
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
                     <Entypo name={props.iconName} size={props.iconSize} color={props.iconColor} />
-                </Touchable>
-            </LinearGradient>
+                </LinearGradient>
+            </Touchable>
         )
     else
         return null;

@@ -1,148 +1,137 @@
-const maxProductionTimeMock = 8*4000 //s
-const minProductionTimeMock = 8*3000 //s
-const maxRestingTimeMock = 2*3600 //s
-const minRestingTimeMock = 3000 // s
+const nanoid = require('nanoid/non-secure')
 const itemsMock = [
   {
-    month: new Date(2019, 11),
+    id: nanoid(),
+    month: new Date(2019, 10), // monthIndex
     items: [
       {
-        day: new Date(2019, 11, 1),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 26),
+        restingTime: 3500,
+        productionTime: 3900 * 8
       },
       {
-        day: new Date(2019, 11, 2),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 25),
+        restingTime: 3600,
+        productionTime: 3600 * 8
       },
       {
-        day: new Date(2019, 11, 3),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 24),
+        restingTime: 3400,
+        productionTime: 3600 * 8
       },
       {
-        day: new Date(2019, 11, 4),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 23),
+        restingTime: 3600,
+        productionTime: 3500 * 8
       },
       {
-        day: new Date(2019, 11, 5),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 22),
+        restingTime: 3800,
+        productionTime: 3700 * 8
       },
       {
-        day: new Date(2019, 11, 6),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+        day: new Date(2019, 10, 21),
+        restingTime: 3900,
+        productionTime: 3800 * 8
       },
       {
-        day: new Date(2019, 11, 7),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+        day: new Date(2019, 10, 20),
+        restingTime: 3400,
+        productionTime: 3600 * 8
       },
       {
-        day: new Date(2019, 11, 8),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+        day: new Date(2019, 10, 19),
+        restingTime: 3600,
+        productionTime: 3500 * 8
       },
       {
-        day: new Date(2019, 11, 9),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 11, 10),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 11, 11),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 11, 12),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      }
-    ]
-  },
-  {
-    month: new Date(2019, 10),
-    items: [
-      {
-        day: new Date(2019, 10, 4),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 5),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 6),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 7),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 8),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 9),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 10),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 11),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 12),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 13),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
-      },
-      {
-        day: new Date(2019, 10, 14),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 15),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
-      },
-      {
-        day: new Date(2019, 10, 16),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+        day: new Date(2019, 10, 18),
+        restingTime: 3800,
+        productionTime: 3700 * 8
       },
       {
         day: new Date(2019, 10, 17),
-        restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
-        productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+        restingTime: 3900,
+        productionTime: 3800 * 8
       }
     ]
   }
+  // {
+  //   id: nanoid(),
+  //   month: new Date(2019, 9),
+  //   items: [
+  //     {
+  //       day: new Date(2019, 9, 4),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock)) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock)) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 5),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 6),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 7),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 8),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 9),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 10),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 11),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 12),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 13),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 14),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 15),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 16),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     },
+  //     {
+  //       day: new Date(2019, 9, 17),
+  //       restingTime: Math.floor(Math.random() * (maxRestingTimeMock - minRestingTimeMock) ) + minRestingTimeMock,
+  //       productionTime: Math.floor(Math.random() * (maxProductionTimeMock - minProductionTimeMock) ) + minProductionTimeMock,
+  //     }
+  //   ]
+  // }
 ]
 
-export default itemsMock;
+export default itemsMock

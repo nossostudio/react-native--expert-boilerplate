@@ -1,18 +1,18 @@
-export enum MonthsEnum {
-  JANEIRO = 1,
-  FEVEREIRO = 2,
-  MARÇO = 3,
-  ABRIL = 4,
-  MAIO = 5,
-  JUNHO = 6,
-  JULHO = 7,
-  AGOSTO = 8,
-  SETEMBRO = 9,
-  OUTUBRO = 10,
-  NOVEMBRO = 11,
-  DEZEMBRO = 12
+export enum MonthsEnum { //monthIndex, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+  Janeiro = 0,
+  Fevereiro = 1,
+  Março = 2,
+  Abril = 3,
+  Maio = 4,
+  Junho = 5,
+  Julho = 6,
+  Agosto = 7,
+  Setembro = 8,
+  Outubro = 9,
+  Novembro = 10,
+  Dezembro = 11
 }
-export enum DaysEnum {
+export enum DaysEnum { //dayIndex, https://momentjs.com/docs/#/get-set/day/ 
   DOMINGO = 0,
   SEGUNDA = 1,
   TERCA = 2,
