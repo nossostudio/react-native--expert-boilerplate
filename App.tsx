@@ -8,12 +8,16 @@ import { PersistGate } from 'redux-persist/integration/react'
 import configureStore from './configureStore'
 import * as actions from './src/actions'
 
+if (__DEV__) {
+  require('react-devtools');
+}
+
 export default function App() {
   const [isFontLoaded, setIsFontLoaded] = useState(false)
   const { store, persistor } = configureStore()
 
   useEffect(() => {
-    AppState.addEventListener('change', (nextAppState) => _handleAppStateChange(nextAppState, store))
+    AppState.addEventListener('change', (nextAppState) => _handleAppStateChange(nextAppState, configureStore().store))
     handleFontLoad(setIsFontLoaded)
   }, []);
 
@@ -45,7 +49,7 @@ function _handleAppStateChange(nextAppState, store) {
   const currentItem = store.getState().currentItemReducer
   const appState = store.getState().appStateReducer
   if (nextAppState === 'active') {
-    __DEV__ ? console.log('App has come to the foreground!') : null
+    __DEV__ ? console.log('App has come to the foreground! currentItem:', currentItem) : null
     if (currentItem.isRunning === true || currentItem.isRunning === false) {
       const startTime = new Date(appState.startTime)
       const endTime = new Date(Date.now())
@@ -53,7 +57,7 @@ function _handleAppStateChange(nextAppState, store) {
       store.dispatch(actions.appCameToForeground(timeSpent, currentItem.isRunning))
     }
   } else {
-    __DEV__ ? console.log('App has gone to the background!') : null
+    __DEV__ ? console.log('App has gone to the background! currentItem:', currentItem) : null
     if (currentItem.isRunning === true || currentItem.isRunning === false) {
       const time = new Date(Date.now())
       store.dispatch(actions.appWentToBackground(time))

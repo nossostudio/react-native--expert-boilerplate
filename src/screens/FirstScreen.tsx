@@ -1,24 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { getLastSevenItems } from '../selectors';
-import { StyleSheet, Text, View, SectionList, FlatList, LayoutAnimation } from 'react-native';
+import { getLastSevenItems, getSections } from '../selectors';
+import { InteractionManager, StyleSheet, Text, View, SectionList, FlatList, LayoutAnimation } from 'react-native';
 import { iOSUIKit } from 'react-native-typography'
-import { getMonth } from '../helpers/Months';
 import { headerHeight, minHeaderHeight, hhmm, colors } from 'helpers/constants';
 import Animated from 'react-native-reanimated';
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+const AnimatedSectionList = React.memo(Animated.createAnimatedComponent(SectionList))
 import { Header, TimeShiftItem, TimeShiftGraph } from 'components'
 
-class FirstScreen extends React.Component {
-    interval = null
-    state = {
-        currentItem: {
-            productionTime: 0,
-            restingTime: 0,
-            isRunning: undefined
+class FirstScreen extends React.PureComponent {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            currentItem: {
+                productionTime: 0,
+                restingTime: 0,
+                isRunning: undefined
+            }
         }
+
+        this.renderSectionHeader = this.renderSectionHeader.bind(this)
+        this.renderSectionHeaderInternal = this.renderSectionHeaderInternal.bind(this)
+        this.renderItem = this.renderItem.bind(this)
+        this.renderItemInternal = this.renderItemInternal.bind(this)
     }
+
+    interval = null
     scrollY = new Animated.Value(0);
     animatedHeaderHeight = Animated.interpolate(this.scrollY, {
         inputRange: [100, headerHeight],
@@ -27,49 +36,52 @@ class FirstScreen extends React.Component {
     })
     methods = {
         newItem: () => requestAnimationFrame(() => {
-            if (this.interval) clearInterval(this.interval)
-            this.interval = setInterval(() => {
-                this.setState({
-                    currentItem: {
-                        restingTime: this.state.currentItem.restingTime,
-                        productionTime: this.state.currentItem.productionTime + 1,
-                        isRunning: true
-                    }
-                })
-            }, 1000);
-            setTimeout(() => {
-                this.props.dispatchCurrentItem({ isRunning: true }, this.handleBackgroundTime.bind(this));
-            }, 1000)
+            this.props.dispatchCurrentItem({ isRunning: true }, this.handleBackgroundTime.bind(this));
+            this.setState({ currentItem: { ...this.state.currentItem, isRunning: true } })
+            InteractionManager.runAfterInteractions(() => {
+                if (this.interval) clearInterval(this.interval)
+                this.interval = setInterval(() => {
+                    this.setState({
+                        currentItem: {
+                            restingTime: this.state.currentItem.restingTime,
+                            productionTime: this.state.currentItem.productionTime + 1,
+                            isRunning: true
+                        }
+                    })
+                }, 1000);
+            });
         }),
         pause: () => requestAnimationFrame(() => {
-            if (this.interval) clearInterval(this.interval);
-            this.interval = setInterval(() => {
-                this.setState({
-                    currentItem: {
-                        productionTime: this.state.currentItem.productionTime,
-                        restingTime: this.state.currentItem.restingTime + 1,
-                        isRunning: false
-                    }
-                })
-            }, 1000);
-            setTimeout(() => {
-                this.props.dispatchCurrentItem({ isRunning: false });
-            }, 1000)
+            this.props.dispatchCurrentItem({ isRunning: false });
+            this.setState({ currentItem: { ...this.state.currentItem, isRunning: false } })
+            InteractionManager.runAfterInteractions(() => {
+                if (this.interval) clearInterval(this.interval);
+                this.interval = setInterval(() => {
+                    this.setState({
+                        currentItem: {
+                            productionTime: this.state.currentItem.productionTime,
+                            restingTime: this.state.currentItem.restingTime + 1,
+                            isRunning: false
+                        }
+                    })
+                }, 1000);
+            })
         }),
         play: () => requestAnimationFrame(() => {
-            if (this.interval) clearInterval(this.interval);
-            this.interval = setInterval(() => {
-                this.setState({
-                    currentItem: {
-                        restingTime: this.state.currentItem.restingTime,
-                        productionTime: this.state.currentItem.productionTime + 1,
-                        isRunning: true
-                    }
-                })
-            }, 1000);
-            setTimeout(() => {
-                this.props.dispatchCurrentItem({ isRunning: true });
-            }, 1000)
+            this.props.dispatchCurrentItem({ isRunning: true });
+            this.setState({ currentItem: { ...this.state.currentItem, isRunning: true } })
+            InteractionManager.runAfterInteractions(() => {
+                if (this.interval) clearInterval(this.interval);
+                this.interval = setInterval(() => {
+                    this.setState({
+                        currentItem: {
+                            restingTime: this.state.currentItem.restingTime,
+                            productionTime: this.state.currentItem.productionTime + 1,
+                            isRunning: true
+                        }
+                    })
+                }, 1000);
+            })
         }),
         stop: () => requestAnimationFrame(() => {
             clearInterval(this.interval);
@@ -82,46 +94,53 @@ class FirstScreen extends React.Component {
         LayoutAnimation.spring();
     }
 
+    renderSectionHeader({ section: { key } }) {
+        return <Header
+            height={this.animatedHeaderHeight}
+            item={this.state.currentItem}
+            __item={this.props.currentItem}
+            methods={this.methods}
+        />
+    }
+
+    renderSectionHeaderInternal({ section: { title } }) {
+        if (title === this.props.sections[0].title)
+            return (//Gráfico
+                <View>
+                    <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>Últimos 7 dias</Text>
+                    <TimeShiftGraph lastSeven={this.props.lastSeven} />
+                    <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>{title}</Text>
+                </View>)
+        else
+            return <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>{title}</Text>
+    }
+
+    renderItem() {
+        return <AnimatedSectionList
+            style={{ flex: 1 }}
+            sections={this.props.sections}
+            keyExtractor={(item, _) => item.day}
+            renderSectionHeader={this.renderSectionHeaderInternal}
+            renderItem={this.renderItemInternal}
+        />
+    }
+
+    renderItemInternal({ item }) {
+        return <TimeShiftItem day={item.day} restingTime={item.restingTime} productionTime={item.productionTime} />
+    }
+
     render() {
         return (
             <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
                 <AnimatedSectionList
                     style={{ flex: 1 }}
-                    sections={[{ key: "", data: [""] }]}
-                    ref={(r) => this.sectionList = r}
+                    sections={[{ key: "0", data: [""] }]}
                     stickySectionHeadersEnabled={true}
-                    keyExtractor={(_, index) => `_${index}`}
+                    keyExtractor={(_, index) => index}
                     delayPressIn={0}
                     disableScrollViewPanResponder
-                    renderSectionHeader={({ section: { key } }) =>
-                        (<Header
-                            height={this.animatedHeaderHeight}
-                            item={this.state.currentItem}
-                            __item={this.props.currentItem}
-                            methods={this.methods}
-                        />)
-                    }
-                    renderItem={() =>
-                        (<AnimatedSectionList
-                            style={{ flex: 1 }}
-                            sections={this.props.sections}
-                            keyExtractor={(_, index) => `${index}`}
-                            renderSectionHeader={({ section: { title } }) => {
-                                if (title === this.props.sections[0].title)
-                                    return (//Gráfico
-                                        <View>
-                                            <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>Últimos 7 dias</Text>
-                                            <TimeShiftGraph lastSeven={this.props.lastSeven} />
-                                            <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>{title}</Text>
-                                        </View>)
-                                else
-                                    return <Text style={[iOSUIKit.largeTitleEmphasized, styles.title, { color: colors.sectionList.title, fontSize: 27 }]}>{title}</Text>
-                            }}
-                            renderItem={({ item }) => (
-                                <TimeShiftItem day={item.day} restingTime={item.restingTime} productionTime={item.productionTime} />
-                            )}
-                        />)
-                    }
+                    renderSectionHeader={this.renderSectionHeader}
+                    renderItem={this.renderItem}
                     onScroll={Animated.event(
                         [
                             {
@@ -166,10 +185,7 @@ const mapStoreToProps = store => {
     return {
         currentItem: store.currentItemReducer,
         lastSeven: getLastSevenItems(store),
-        sections: store.itemsReducer.map(monthItem => ({
-            title: getMonth((new Date(monthItem.month)).getMonth()),
-            data: monthItem.items
-        }))
+        sections: getSections(store)
     }
 }
 const mapDispatchToProps = dispatch => {

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import { VictoryStack, VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 import { minHeaderHeight, windowWidth, colors, minSecondsToShowLabel } from 'helpers/constants';
 import PropTypes from 'prop-types'
 
 function TimeShiftGraph({ lastSeven }) {
+    const [animationHasEnded, setAnimationHasEnded] = useState(false)
     return (
         <View>
             <VictoryChart
@@ -13,7 +14,8 @@ function TimeShiftGraph({ lastSeven }) {
                 height={minHeaderHeight}
                 theme={VictoryTheme.material}
                 animate={{
-                    duration: 2000,
+                    onEnd: () => setAnimationHasEnded(true),
+                    duration: 6000, easing: "bounceInOut"
                 }}
                 domainPadding={{ x: [20, 16] }}
                 style={{ legend: { fontSize: 5 }, axis: { fill: 'pink' } }}
@@ -28,7 +30,7 @@ function TimeShiftGraph({ lastSeven }) {
                     <VictoryBar //DOCS: https://formidable.com/open-source/victory/docs/victory-bar/
                         data={lastSeven} x="weekDayDDD" y="restingTimeH"
                         domain={{ y: [0, 12] }} //TODO: Definir domain máximo de acordo com o elemento maior de lastSeven
-                        labels={({ datum }) => (datum.productionTime > minSecondsToShowLabel ? datum.productionTimeHHmm : "") + "\n" + (datum.productionTime > minSecondsToShowLabel ? datum.restingTimeHHmm : "")} //Hide labels if productionTime is small
+                        labels={({ datum }) => animationHasEnded ? ((datum.productionTime > minSecondsToShowLabel ? datum.productionTimeHHmm : "") + "\n" + (datum.productionTime > minSecondsToShowLabel ? datum.restingTimeHHmm : "")) : ""} //Hide labels if productionTime is small
                         barWidth={30}
                         style={{ data: { fill: colors.chart.restingTime }, labels: { fill: colors.chart.restingTime, fontSize: 9, fontWeight: '100' } }}
                     />
@@ -45,7 +47,7 @@ function TimeShiftGraph({ lastSeven }) {
     )
 }
 
-export default TimeShiftGraph;
+export default React.memo(TimeShiftGraph);
 
 TimeShiftGraph.propTypes = {
     lastSeven: PropTypes.array

@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import { hhmm } from '../helpers/constants'
-import { getDay } from '../helpers/Months';
+import { getDay, getMonth } from '../helpers/Months';
 var moment = require('moment');
 import 'moment/locale/pt-br.js';
 
 function getItems(store) {
-    if(store.itemsReducer[0].items.length < 7 && store.itemsReducer[1]){
+    if (store.itemsReducer[0].items.length < 7 && store.itemsReducer[1]) {
         return store.itemsReducer[0].items.concat(store.itemsReducer[1].items)
     }
     return store.itemsReducer[0].items
@@ -25,8 +25,24 @@ const getLastSevenItems = createSelector(
     }).sort((a, b) => new Date(a.day) - new Date(b.day))
 )
 
+function getItemsReducer(store) {
+    return store.itemsReducer
+}
+
+const getSections = createSelector(
+    getItemsReducer,
+    (itemsReducer) => itemsReducer.map(monthItem => ({
+        title: getMonth((new Date(monthItem.month)).getMonth()),
+        data: monthItem.items
+    }))
+)
+
+
+
+
 
 module.exports = {
-    getLastSevenItems
+    getLastSevenItems,
+    getSections
 }
 

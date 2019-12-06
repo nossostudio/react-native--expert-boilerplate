@@ -18,7 +18,7 @@ function TimeShiftItem({ day, restingTime, productionTime }) {
                     <Ionicons name="ios-calendar" size={70} color={colors.listItem.day} />
                     <Text style={[iOSUIKit.largeTitleEmphasizedWhite, {
                         position: 'absolute',
-                        ...Platform.select({ ios: { bottom: 15, }, android: { bottom: 10, } }),
+                        ...Platform.select({ ios: { bottom: 15, }, android: { bottom: 8, } }),
                         fontWeight: 'bold', fontSize: 23, color: colors.listItem.day
                     }]}>
                         {moment(day).format('DD')}
@@ -46,7 +46,7 @@ function TimeShiftItem({ day, restingTime, productionTime }) {
     )
 }
 
-export default TimeShiftItem;
+export default React.memo(TimeShiftItem);
 
 const styles = StyleSheet.create({
     container: {

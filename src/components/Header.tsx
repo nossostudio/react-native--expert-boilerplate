@@ -8,7 +8,7 @@ import FabButton from 'components/FabButton';
 import { headerHeight, headerStrings, hhmmss, hms } from 'helpers/constants'
 const { productionTimeRunningText, productionTimeSoFarText, restingTimeRunningText } = headerStrings
 
-export default function Header(props) {
+function Header(props) {
     return (
         <Animated.View style={[props.styles, { height: props.height }]}
         >
@@ -92,6 +92,8 @@ export default function Header(props) {
         </Animated.View>
     )
 }
+
+export default React.memo(Header)
 
 function handleProductionTimeFormat(seconds) {
     const hmmssArray = hms(seconds).split(":")

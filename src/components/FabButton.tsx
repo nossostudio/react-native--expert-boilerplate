@@ -3,7 +3,7 @@ import { Entypo } from '@expo/vector-icons';
 import Touchable from 'components/Touchable';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function FabButton(props) {
+function FabButton(props) {
     if (props.isVisible)
         return (
             <Touchable
@@ -32,6 +32,8 @@ export default function FabButton(props) {
     else
         return null;
 }
+
+export default React.memo(FabButton)
 
 FabButton.defaultProps = {
     onPress: () => alert('FabButton works.'),

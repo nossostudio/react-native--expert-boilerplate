@@ -1,6 +1,6 @@
 {
   "name": "pjtoolbox-rn",
-  "description": "It comes with most important rn packages for developing apps.\nIt's based on Expo v35, react-navigation, jest (unit test - TDD), redux (global state manager), redux-form, etc.",
+  "description": "POC for UOL Edtech. It comes with most important rn packages for developing apps.\nIt's based on Expo v35, react-navigation, jest (unit test - TDD), redux (global state manager), redux-form; InteractionManager, react-devtools, React.memo() and other performance hints for 60fps animations in between JS Thread and UI Thread, etc.",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -10,7 +10,8 @@
     "eject": "expo eject",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "eslint:fix": "npx eslint --fix ."
+    "eslint:fix": "npx eslint --fix .",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.3",
@@ -60,6 +61,7 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
+    "react-devtools": "3",
     "typescript": "^3.6.3"
   },
   "private": true,
