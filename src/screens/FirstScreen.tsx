@@ -27,6 +27,7 @@ class FirstScreen extends React.PureComponent {
         this.renderItemInternal = this.renderItemInternal.bind(this)
     }
 
+
     interval = null
     scrollY = new Animated.Value(0);
     animatedHeaderHeight = Animated.interpolate(this.scrollY, {
@@ -129,6 +130,8 @@ class FirstScreen extends React.PureComponent {
         return <TimeShiftItem day={item.day} restingTime={item.restingTime} productionTime={item.productionTime} />
     }
 
+
+
     render() {
         return (
             <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
@@ -193,7 +196,6 @@ const mapDispatchToProps = dispatch => {
         dispatchCurrentItem: (item, handleBackgroundTime) => dispatch(actions.dispatchCurrentItem(item, handleBackgroundTime))
     }
 }
-
 export default connect(
     mapStoreToProps,
     mapDispatchToProps
