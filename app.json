@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "React-Native-Expo-Web-Redux-React-Navigation-Boilerplate",
-    "slug": "react-native-expo-web-redux-react-navigation-boilerplate",
+    "name": "react-native--expert-boilerplate",
+    "slug": "react-native--expert-boilerplate",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
+    },
+    "description": "It comes with most important rn packages for developing apps.\nIt's based on Expo v35, react-navigation, jest (unit test - TDD), redux (global state manager), redux-form; InteractionManager, react-devtools, React.memo() and other performance hints for 60fps animations in between JS Thread and UI Thread, etc."
   }
 }
