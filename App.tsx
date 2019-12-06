@@ -17,7 +17,11 @@ export default function App() {
   const { store, persistor } = configureStore()
 
   useEffect(() => {
-    AppState.addEventListener('change', (nextAppState) => _handleAppStateChange(nextAppState, configureStore().store))
+    AppState.addEventListener('change', (nextAppState) => _handleAppStateChange(nextAppState, store))
+    return AppState.removeEventListener('change', (nextAppState) => _handleAppStateChange(nextAppState, store))
+  }, []);
+
+  useEffect(() => {
     handleFontLoad(setIsFontLoaded)
   }, []);
 
@@ -28,7 +32,7 @@ export default function App() {
     }
   }
 
-  __DEV__ ? persistor.purge() : null
+  //__DEV__ ? persistor.purge() : null
 
   if (isFontLoaded) {
     return (
@@ -40,7 +44,7 @@ export default function App() {
         </PersistGate>
       </Provider>
     );
-  }else{
+  } else {
     return <View />
   }
 }
@@ -53,7 +57,7 @@ function _handleAppStateChange(nextAppState, store) {
     if (currentItem.isRunning === true || currentItem.isRunning === false) {
       const startTime = new Date(appState.startTime)
       const endTime = new Date(Date.now())
-      const timeSpent = Math.floor((endTime.getTime() - startTime.getTime()) / (__DEV__ ? 10 : 1000))
+      const timeSpent = Math.floor((endTime.getTime() - startTime.getTime()) / 1000)
       store.dispatch(actions.appCameToForeground(timeSpent, currentItem.isRunning))
     }
   } else {
@@ -65,7 +69,7 @@ function _handleAppStateChange(nextAppState, store) {
   }
 };
 
-async function handleFontLoad(setIsFontLoaded){
+async function handleFontLoad(setIsFontLoaded) {
   await Font.loadAsync({
     'Roboto': require('./assets/fonts/roboto/Roboto-Bold.ttf'),
   });
